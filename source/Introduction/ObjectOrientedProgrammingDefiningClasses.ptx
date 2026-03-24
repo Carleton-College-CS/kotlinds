@@ -139,6 +139,8 @@ override fun toString(): String {
         val newNumerator = this.numerator * other.denominator +
                 this.denominator * other.numerator
         val newDenominator = this.denominator * other.denominator
+        return Fraction(newNumerator, newDenominator)
+    }
         </code>
       </program>
     </listing>
@@ -174,6 +176,8 @@ println(f3)
         val newNumerator = numerator * other.denominator +
                 denominator * other.numerator
         val newDenominator = denominator * other.denominator
+        return Fraction(newNumerator, newDenominator)
+    }
         </code>
       </program>
 </listing>
@@ -296,7 +300,7 @@ println(f4 == f6)
     <p>We can create <term>deep equality</term>&#x2013;equality by the
       same value, not the same reference&#x2013;by implementing an <c>equals()</c>
       method (see
-      <xref ref="fig-fraction3" />). This method will compare the <em>contents</em> of the objects (in their state), not merely their references,
+      <xref ref="fig-fraction3" />). This method will compare the <em>contents</em> of the objects (in their state), not merely their references.
     </p>
     <p>In Kotlin, all classes automatically have a method named <c>equals</c>, which they automatically inherit from the built-in class <c>Any?</c>. Whenever the <c>==</c> operator is used, it calls the <c>equals</c> method on that object. Therefore, we can override the <c>equals</c> method in the <c>Fraction</c> class by
       again putting the two fractions in common terms and then comparing the
@@ -328,10 +332,10 @@ val num1 = 3
 println(f1 == num1)
 </code></program>
 
-    <p>Mathematically, the fraction 6/2 should be equal to the integer 3. From a Kotlin perspective, we are comparing two different types: a <c>Fraction</c> and an <c>Int</c>. Anytime Kotlin sees the <c>==</c> operator, it converts to a call to the <c>equals</c> method. So in the above code, <c>f1 == num1</c> would be implicitly converted to <c>f1.equals(num1)</c>. If we had defined the method <c>equals</c> as taking a <c>Fraction</c> as a parameter, we wouldn't be able to do comparisons such as the one above. To keep things simple here, we will only allow comparisons between two <c>Fraction</c> objects, but the <c>equals</c> method could un principle be extended to allow more functionality.</p>
+    <p>Mathematically, the fraction 6/2 should be equal to the integer 3. From a Kotlin perspective, we are comparing two different types: a <c>Fraction</c> and an <c>Int</c>. Anytime Kotlin sees the <c>==</c> operator, it converts to a call to the <c>equals</c> method. So in the above code, <c>f1 == num1</c> would be implicitly converted to <c>f1.equals(num1)</c>. If we had defined the method <c>equals</c> as taking a <c>Fraction</c> as a parameter, we wouldn't be able to do comparisons such as the one above. To keep things simple here, we will only allow comparisons between two <c>Fraction</c> objects, but the <c>equals</c> method could in principle be extended to allow more functionality.</p>
 
     <p>
-      This helps to explain why the <c>equals</c> method needs to take a parameter of type <c>Any?</c>; in general, one might wish to compare an object reference with any other, even <c>null</c>. In our particular case, we want to only permit comparisons between <c>Fraction</c> objects, hence the check that we do in lines 2-4 of <xref ref="introduction_lst-cmpmethod"/>. The <c>is</c> operator in Kotlin checks to see if the type of the first object is either equal to, or a subtype, of the second object. So the check in line 2 determines if <c>other</c> is a <c>Fraction</c> object. If it is not, <c>equals</c> returns false.
+      This helps to explain why the <c>equals</c> method needs to take a parameter of type <c>Any?</c>; in general, one might wish to compare an object reference with any other, even <c>null</c>. In our particular case, we want to only permit comparisons between <c>Fraction</c> objects, hence the check that we do in lines 2-4 of <xref ref="introduction_lst-cmpmethod"/>. The <c>is</c> operator in Kotlin checks to see if the type of the first object is either equal to, or a subtype of, the second object. So the check in line 2 determines if <c>other</c> is a <c>Fraction</c> object. If it is not, <c>equals</c> returns false.
     </p>
 
     <p>If we now evaluate <c>f4 == f6</c> in our <c>FractionTest</c> program, this will implicitly be converted to <c>f4.equals(f6)</c>, and the <c>equals()</c> method will do a deep equality comparison and evaluate as <c>true</c>.</p>
@@ -350,7 +354,7 @@ println(f9)
 </code></program>
 
 <p>
-  Kotlin provides the capability to redefine many common operators, such as <c>+</c>, so that that they call methods on objects. Specifically, Kotlin allows us to define an <term>operator</term> method. If we use the name <c>plus</c> for a method an declare it as an operator method, than <c>f7 + f8</c> will work as expected. Here is our code for that:
+  Kotlin provides the capability to redefine many common operators, such as <c>+</c>, so that that they call methods on objects. Specifically, Kotlin allows us to define an <term>operator</term> method. If we use the name <c>plus</c> for a method and declare it as an operator method, then <c>f7 + f8</c> will work as expected. Here is our code for that:
 </p>
 
 <program language="kotlin"><code>
@@ -359,7 +363,7 @@ println(f9)
     }
 </code></program>
 
-<p>To save duplication of code, we will have this new <c>plus</c> method invoke the <c>add</c> method with.</p>
+<p>To save duplication of code, we will have this new <c>plus</c> method invoke the <c>add</c> method and pass along the parameter <c>other</c>.</p>
 
 <p>
   This particular technique is known as <term>operator overloading</term>. Kotlin's language guide has a <url href="https://kotlinlang.org/docs/operator-overloading.html" visual="Kotlin language guide: operator overloading">list of operators you can overload, and the appropriate method names for doing so.</url>
@@ -384,10 +388,10 @@ println(f9)
     </program>
     </listing>
 
-    <p>This is what you need to know to create most of the classes we will use in this book. This is, after all, a review of <em>basic</em> Kotlin, and our goal is to teach you data structures, not Java. However, we will also need the more advanced concepts of inheritance, polymorphism, interfaces, composition, and generics.
+    <p>This is what you need to know to create most of the classes we will use in this book. This is, after all, a review of <em>basic</em> Kotlin, and our goal is to teach you data structures, not Kotlin. 
       
       <!-- TODO: Put this back when appendix is done.
-       
+       However, we will also need the more advanced concepts of inheritance, polymorphism, interfaces, composition, and generics.
       See <xref ref="appendix_oop"/> for an overview of these concepts. We have put them in an Appendix so that this section can be kept to a reasonable length.
      -->
     </p>
