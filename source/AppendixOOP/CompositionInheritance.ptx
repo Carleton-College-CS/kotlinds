@@ -19,8 +19,9 @@ Composition happens when an object is made up of other objects. For example, in 
     <code>
 class Card(val suit: String, val num: Int) {
 }
+
 class Deck {
-    val cards = mutableListOf<Card>()
+    val cards = mutableListOf&lt;Card>()
 }
     </code>
   </program>
@@ -105,7 +106,7 @@ class PowerSupply(var voltage: Int) {
     // initializer block
     init {
         if (voltage != 220) {
-        voltage = 110
+            voltage = 110
         }
     }
 }
@@ -135,8 +136,9 @@ class Toaster(var numSlots: Int, var voltage: Int) {
         power = PowerSupply(voltage)
         darkness = Dial(1, 10)
     }
+
     fun insertBread(newSlices : Int) {
-        if (numSlices + newSlices <= numSlots) {
+        if (numSlices + newSlices &lt;= numSlots) {
             numSlices += newSlices
         } else {
             println("Toaster is too full!")
@@ -227,10 +229,10 @@ An <em>Is\-A</em> relationship is known as <em>inheritance</em>:
     </ul>
 </p>
 
-<p>Without inheritance, we would have to represent the <c>Bicycle</c> and <c>ElectricBicycle</c> classes separately, but with a lot of duplicated methods between them, such as the code for <c>color</c>, <c>frameSize</c>, changing gears, etc.
+<p>Without inheritance, we would have to represent the <c>Bicycle</c> and <c>ElectricBicycle</c> classes separately, but with a lot of duplicated methods between them, such as the code for <c>color</c>, <c>frameSize</c>, changing gears, etc.</p>
 
 <!--
- as shown in <xref ref="oop_fig-nonInheritedBikes"/>:</p>
+ <p>as shown in <xref ref="oop_fig-nonInheritedBikes"/>:</p>
 
 
   <figure align="center" xml:id="oop_fig-nonInheritedBikes">
@@ -641,9 +643,9 @@ Part 1: Create a class named <c>Account</c>, which has the following properties:
 </p>
 
 <!--
-<p><xref ref="oop_fig-account-inheritance"/> shows the details of the <c>Account</c> class and its subclasses.
+<p><xref ref="oop_fig-account-inheritance"/> shows the details of the <c>Account</c> class and its subclasses.</p>
 -->
-<xref ref="oop_fig-account-classes"/> shows the relationships of all the classes in this exercise.</p>
+<p><xref ref="oop_fig-account-classes"/> shows the relationships of all the classes in this exercise.</p>
 
 <!--
 <figure align="center" xml:id="oop_fig-account-inheritance">
