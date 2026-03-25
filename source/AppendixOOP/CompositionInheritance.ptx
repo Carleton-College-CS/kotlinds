@@ -11,39 +11,45 @@ Two important concepts in object-oriented programming are <em>composition</em> a
 <subsection xml:id="oop_composition">
     <title>Composition</title>
 <p>
-Composition happens when an object is made up of other objects. For example, in a card game, we might represent a <c>Deck</c> as made up of an array of <c>Card</c> objects:
+Composition happens when an object is made up of other objects. For example, in a card game, we might represent a <c>Deck</c> as made up of a list of <c>Card</c> objects:
 </p>
 
 <listing>
-  <program language="java">
+  <program language="kotlin">
     <code>
-public class Deck {
-    private Card[] cards;
-    ...
+class Card(val suit: String, val num: Int) {
+}
+
+class Deck {
+    val cards = mutableListOf&lt;Card>()
 }
     </code>
   </program>
 </listing>
 
 <p>
-Composition is also known as a <term>Has-A relationship</term>.  (A <c>Deck</c> <em>has an</em> array of <c>Card</c>s).  Put formally, the <c>Deck</c> is the <term>aggregating class</term>, and the <c>Card</c> class is is the <term>aggregated class</term>.
+Composition is also known as a <term>Has-A relationship</term>.  (A <c>Deck</c> <em>has a</em> list of <c>Card</c>s).  Put formally, the <c>Deck</c> is the <term>aggregating class</term>, and the <c>Card</c> class is is the <term>aggregated class</term>.
 </p>
 
+<!--
 <p>
     When we draw a UML diagram involving composition, as in <xref ref="oop_fig-aggregation"/>, we use an arrow with a diamond head to indicate aggregation, and we can also add notation here that shows that one <c>Deck</c> contains many <c>Card</c> objects.
 </p>
+
 
 <aside>
     <p>If you are unfamiliar with UML (Unified Modeling Language) diagrams, see <xref ref="appendix_uml"/> for a brief introduction.</p>
 </aside>
 
+
   <figure align="center" xml:id="oop_fig-aggregation">
     <caption>UML Diagram Showing Aggregation - a Deck has Card(s)</caption>
     <image source="AppendixOOP/Figures/aggregation.png" width="25%"/>
   </figure>
+  -->
 
 <p>
-Let's use composition to build a Java simulation of a toaster. What things is a toaster built from?
+Let's use composition to build a Kotlin simulation of a toaster. What things is a toaster built from?
 </p>
 
 <p>
@@ -60,14 +66,17 @@ The first two of these are built by the toaster company. But the company that ma
 </p>
 
 <p>
-    That means that our <c>Toaster</c> <em>has-a</em> <c>PowerSupply</c> object and <em>has-a</em> <c>Dial</c> object. <xref ref="oop_fig-toasterComposition"/> shows the UML diagram. You can see the full code in the file <em>ch14/ToasterTest.java</em> in the repository.
+    That means that our <c>Toaster</c> <em>has-a</em> <c>PowerSupply</c> object and <em>has-a</em> <c>Dial</c> object.
 </p>
+    <!--<xref ref="oop_fig-toasterComposition"/> shows the UML diagram. You can see the full code in the file <em>ch14/ToasterTest.java</em> in the repository.
+
 
 
   <figure align="center" xml:id="oop_fig-toasterComposition">
     <caption>UML Diagram Showing a Toaster composed of a PowerSupply and Dial)</caption>
     <image source="AppendixOOP/Figures/toaster.png" width="50%"/>
   </figure>
+  -->
 
   <p>
 Before we see how composition affects the way we construct and manipulate objects, let's give a few more instances of composition (<em>has-a</em>) relationships. Using composition reflects the way objects are built out of other objects (parts). Each of the sub-parts has its own attributes and things that it can do (its methods). Notice that we sometimes need multiple instances of a sub-part when constructing the larger object.
@@ -88,24 +97,23 @@ Back to the toaster. <xref ref="oop_subpart-constructors"/> shows the constructo
 
 <listing xml:id="oop_subpart-constructors">
     <caption>Constructors for <c>PowerSupply</c> and <c>Dial</c></caption>
-  <program language="java">
+  <program language="kotlin">
     <code>
-public PowerSupply(int voltage) {
-    if (voltage == 220) {
-        this.voltage = voltage;
-    } else {
-        this.voltage = 110;
-    }
-
+class PowerSupply(var voltage: Int) {
     // new power supplies are always turned off
-    this.turnedOn = false;
+    var turnedOn = false
+
+    // initializer block
+    init {
+        if (voltage != 220) {
+            voltage = 110
+        }
+    }
 }
 
-public Dial(int minValue, int maxValue) {
-    this.minValue = minValue;
-    this.maxValue = maxValue;
+class Dial(val minValue: Int, val maxValue: Int) {
     // new dials are always set to lowest value
-    this.dialValue = minValue;
+    var dialValue = minValue
 }
     </code>
   </program>
@@ -116,45 +124,50 @@ Now, look at how the <c>Toaster</c> class starts, with line numbers for referenc
 </p>
 
 <listing>
-  <program language="java" line-numbers="yes">
+  <program language="kotlin" line-numbers="yes">
     <code>
-class Toaster {
-    private int nSlots;
-    private int nSlices;
-    private PowerSupply power;
-    private Dial darkness;
+class Toaster(var numSlots: Int, var voltage: Int) {
+    var numSlices = 0
+    var power: PowerSupply
+    var darkness: Dial
 
-    public Toaster(int nSlots, int voltage) {
-        this.nSlots = Math.max(1, Math.min(4, nSlots));
-        this.nSlices = 0;
-        this.power = new PowerSupply(voltage);
-        this.darkness = new Dial(1, 10);
+    init {
+        numSlots = maxOf(1, minOf(4, numSlots))
+        power = PowerSupply(voltage)
+        darkness = Dial(1, 10)
     }
-    // ...
+
+    fun insertBread(newSlices : Int) {
+        if (numSlices + newSlices &lt;= numSlots) {
+            numSlices += newSlices
+        } else {
+            println("Toaster is too full!")
+        }
+    }
 }
     </code>
   </program>
 </listing>
 
 <p>
-The constructor in line 7 has two parameters: the number of slots in the toaster and what voltage it should have. The number of slots and number of slices of bread currently in the toaster are attributes belonging to the <c>Toaster</c> class, and those get set directly.
+The constructor in has two parameters: the number of slots in the toaster and what voltage it should have. The number of slots and number of slices of bread currently in the toaster are attributes belonging to the <c>Toaster</c> class, and those get set directly.
 </p>
 
 <p>
-The power supply is an object, which is why line 10 has to call the <c>PowerSupply</c> constructor to build a power supply with the desired voltage. Think of this as the toaster company calling up the power supply company and telling them “send me a 110-volt power supply” and putting that power supply into the finished toaster.
+The power supply is an object, which is why line 8 has to call the <c>PowerSupply</c> constructor to build a power supply with the desired voltage. Think of this as the toaster company calling up the power supply company and telling them “send me a 110-volt power supply” and putting that power supply into the finished toaster.
 </p>
 
 <p>
-Similarly, line 11 has to call the <c>Dial</c> constructor to build a dial with a range of 1-10.
+Similarly, line 9 has to call the <c>Dial</c> constructor to build a dial with a range of 1-10.
 </p>
 
 <p>
-Although a real-life toaster is composed of parts, all of the controls are on the toaster's exterior. We don't expect<mdash/>or want<mdash/>the customer to have to directly access the power supply to turn the toaster on! Similarly, we want to provide methods in the <c>Toaster</c> class that will give programs that use the class access to the private methods and attributes of <c>power</c> and <c>darkness</c>:
+Although a real-life toaster is composed of parts, all of the controls are on the toaster's exterior. We don't expect<mdash/>or want<mdash/>the customer to have to directly access the power supply to turn the toaster on! Similarly, we want to provide methods in the <c>Toaster</c> class that will give programs that use the class access to the methods and attributes of <c>power</c> and <c>darkness</c>:
 </p>
 
 <listing>
     <caption>Methods for Access to Composed Classes</caption>
-  <program language="java">
+  <program language="kotlin">
     <code>
 public boolean isTurnedOn() {
     return this.power.isTurnedOn();
@@ -178,18 +191,14 @@ public void setDialValue(double dialValue) {
 <p>Now we can write a program that creates a <c>Toaster</c> object and makes it do things:</p>
 
 <listing>
-  <program language="java">
+  <program language="kotlin">
     <code>
-public class ToasterTest {
-    public static void main(String[] args) {
-        Toaster euroFour = new Toaster(4, 220);
+fun main() {
+    val euroFour = Toaster(4, 220)
 
-        euroFour.setTurnedOn(true);
-        euroFour.setDialValue(4.5);
-        euroFour.insertBread(1);
-
-        System.out.println(euroFour);
-    }
+    euroFour.setTurnedOn(true)
+    euroFour.setDialValue(4)
+    euroFour.insertBread(1)
 }
     </code>
   </program>
@@ -200,7 +209,7 @@ public class ToasterTest {
 <p>
     <ul>
         <li> Use composition when you have objects that are built up from other objects.</li>
-        <li> Provide methods in an object to give users access to <c>private</c> attributes and methods of the sub-objects.</li>
+        <li> Provide methods in an object to give users access to the attributes and methods of the sub-objects.</li>
     </ul>
 </p>
 </subsection>
@@ -220,33 +229,40 @@ An <em>Is\-A</em> relationship is known as <em>inheritance</em>:
     </ul>
 </p>
 
-<p>Without inheritance, we would have to represent the <c>Bicycle</c> and <c>ElectricBicycle</c> classes as shown in <xref ref="oop_fig-nonInheritedBikes"/>:</p>
+<p>Without inheritance, we would have to represent the <c>Bicycle</c> and <c>ElectricBicycle</c> classes separately, but with a lot of duplicated methods between them, such as the code for <c>color</c>, <c>frameSize</c>, changing gears, etc.</p>
+
+<!--
+ <p>as shown in <xref ref="oop_fig-nonInheritedBikes"/>:</p>
+
 
   <figure align="center" xml:id="oop_fig-nonInheritedBikes">
       <caption>Separate Classes for <c>Bicycle</c> and <c>ElectricBicycle</c></caption>
     <image source="AppendixOOP/Figures/non_inherited_bikes.png" width="70%"/>
   </figure>
-
+-->
 
   <p>
-      That's a lot of duplicated code when we translate it to Java. If we can use the <c>extends</c> keyword to say that
-<c>ElectricBicycle extends Bicycle</c>, that means that <c>ElectricBicycle</c> <em>inherits</em> all of <c>Bicycle</c>'s methods and attributes. All we have to include now in <c>ElectricBicycle</c> are the attributes and methods that add extra capabilities to an electric bicycle, as shown in <xref ref="oop_fig-inheritedBikes"/>:
-</p>
+      That's a lot of duplicated code when we translate it to Kotlin. We can use a concept called <term>inheritance</term> to say that <c>ElectricBicycle</c> <em>inherits</em> all of <c>Bicycle</c>'s methods and attributes. All we have to include now in <c>ElectricBicycle</c> are the attributes and methods that add extra capabilities to an electric bicycle.
+  </p>
+ <!--    
+      , as shown in <xref ref="oop_fig-inheritedBikes"/>:
+
 
   <figure align="center" xml:id="oop_fig-inheritedBikes">
       <caption><c>ElectricBicycle</c> Extending the <c>Bicycle</c> Class</caption>
     <image source="AppendixOOP/Figures/inherited_bikes.png" width="70%"/>
   </figure>
+  --> 
 
   <p>
-      In this example, <c>Bicycle</c> is called the <em>superclass</em> or <em>parent class</em>, and <c>ElectricBicycle</c> is called the <em>subclass</em> or <em>child class</em>. We use an open-headed arrow pointing from the subclass to the superclass in the UML diagram. As in the real world, the child inherits things from the parent<fn>With one exception: as the joke says, <q>Parents inherit their gray hair from their children.</q></fn>.
+      In this example, <c>Bicycle</c> is called the <em>superclass</em> or <em>parent class</em>, and <c>ElectricBicycle</c> is called the <em>subclass</em> or <em>child class</em>. As in the real world, the child inherits things from the parent<fn>With one exception: as the joke says, <q>Parents inherit their gray hair from their children.</q></fn>.
       </p>
 
-      <p>Before we go into details about how to use inheritance in Java, let's take a break for a short exercise:</p>
+      <p>Before we go into details about how to use inheritance in Kotlin, let's take a break for a short exercise:</p>
 
 <exercise>
     <p>
-    In this exercise, we will explore <em>has-a</em> and <em>is-a</em> relationships. First, state whether the relationship of the following classes is composition or inheritance, and draw the UML diagram showing that relationship. (You don't need to provide attributes or methods in the diagrams; the class name alone will be sufficient.)</p>
+    In this exercise, we will explore <em>has-a</em> and <em>is-a</em> relationships. First, state whether the relationship of the following classes is composition or inheritance:</p>
 
 <p>
     <ul>
@@ -272,120 +288,91 @@ Data fields for <c>Teacher</c> are: school, hire date, etc.
 </exercise>
 
 <p>
-    Let's use a smaller example for our continued discussion of inheritance.  We'll have an <c>Item</c> class, which represents an item in a store. An <c>Item</c> instance has a name, a SKU (stock keeping unit), and a price. This is the parent class. We also have a <c>SaleItem</c> class, which is a child class. In addition to a name, SKU, and price (which it inherits from the parent class), a <c>SaleItem</c> has a discount percentage (expressed as a decimal). <xref ref="oop_fig-itemObject"/> shows the UML diagram for these two classes:
-</p>
+    Let's use a smaller example for our continued discussion of inheritance.  We'll have an <c>Item</c> class, which represents an item in a store. An <c>Item</c> instance has a name, a SKU (stock keeping unit), and a price. This is the parent class. We also have a <c>SaleItem</c> class, which is a child class. In addition to a name, SKU, and price (which it inherits from the parent class), a <c>SaleItem</c> has a discount percentage (expressed as a decimal). </p>
+    
+<!--
+    <xref ref="oop_fig-itemObject"/> shows the UML diagram for these two classes:
+
 
 <figure align="center" xml:id="oop_fig-itemObject">
     <caption>UML Diagram of <c>Item</c> and <c>SaleItem</c> classes</caption>
     <image source="AppendixOOP/Figures/item.png" width="50%"/>
   </figure>
 
+
+
 <p>
 There are no setters for the <c>name</c> and <c>sku</c> attributes; once an item is created, those attributes should never change.
 </p>
+  -->
 
 <p>
-<xref ref="oop_lst-item-class"/> shows the code for <c>Item</c>, which you will find in the repository.
+<xref ref="oop_lst-item-class"/> shows the code for <c>Item</c>. Note that the <c>open</c> keyword has been added before <c>class</c>. This is what allows for <c>Item</c> to be used as a superclass. Without this keyword, it would be considered <term>final</term> and would not be allowed to be a parent/superclass. Similarly the <c>open</c> keyword in front of <c>specialName</c> will allow it to be overridden by a subclass.
 </p>
 
 <listing xml:id="oop_lst-item-class">
-  <program language="java">
+  <program language="kotlin">
     <code>
-public class Item {
-    private String name;
-    private String sku;
-    private double price;
 
-    public Item(String name, String sku, double price)  {
-        this.name = name;
-        this.sku = sku;
-        this.price = Math.abs(price);
+open class Item(val name: String, val sku: String, var price: Double) {
+    open val specialName = name + " " + sku
+
+    open fun purchase(quantity: Int) : Double {
+        return price * quantity
     }
 
-    public String getName() {
-        return this.name;
+    override fun toString() : String {
+        return String.format("%s (%s): $%.2f", name, sku, price)
     }
 
-    public String getSku() {
-        return this.sku;
+    override fun equals(other: Any?) : Boolean {
+        if (other !is Item) {
+            return false
+        }
+        return name.equals(other.name) &amp;&amp; 
+            sku.equals(other.sku) &amp;&amp; 
+            price.equals(other.price)
     }
 
-    public double getPrice() {
-        return this.price;
-    }
-
-    public void setPrice(double price) {
-        this.price = Math.abs(price);
-    }
-
-    public double purchase(int quantity) {
-        return this.price * quantity;
-    }
-
-    public String toString() {
-        return String.format("%s (%s): $%.2f", this.name,
-            this.sku, this.price);
-    }
-
-    public boolean equals(Item other) {
-        return (this.name.equals(other.name) &amp;&amp;
-            this.sku.equals(other.sku) &amp;&amp;
-            this.price == other.price);
-    }
 }
+
     </code>
   </program>
 </listing>
 
 <p>
-    Let's start on the code for <c>SaleItem</c>. You might be tempted to write code like <xref ref="oop_lst-sale-item-start"/>:
+    Let's start on the code for <c>SaleItem</c>. The constructor of the subclass can pass along all the parameters that the super class needs, as shown in <xref ref="oop_lst-sale-item-start"/>:
 </p>
 
 <listing xml:id="oop_lst-sale-item-start">
-    <caption>Incorrect Code for <c>SaleItem</c> Constructor</caption>
-  <program language="java">
+    <caption> Code for <c>SaleItem</c> Constructor</caption>
+  <program language="kotlin">
     <code>
-public class SaleItem extends Item {
-    private double discount; // as a decimal
-
-    public SaleItem(String name, String sku, double price,
-       double discount)  {
-       this.name = name;
-       this.sku = sku;
-       this.price = Math.abs(price);
-       this.discount = Math.max(0,
-           Math.min(discount, 1.00));
-    }
+class SaleItem(name: String, 
+    sku: String, 
+    price: Double, 
+    var discount: Double
+    ) : Item(name, sku, price) {
+        init { discount = maxOf(0.0, minOf(discount, 1.00))}
 }
     </code>
   </program>
 </listing>
 
-<p>
-But that won't work, because <c>name</c>, <c>price</c>, and <c>sku</c> are <c>private</c> to the <c>Item</c> class.  We can't call the setter methods for <c>name</c> and <c>sku</c> because there aren't any. What we need to do is call the superclass constructor, which <em>can</em> set those attributes.  To call a superclass constructor, you use the keyword <c>super</c>:
+<p>Sometimes, you want to be able to add on to some of the <c>open</c> attributes of the parent class. You can access the parent class' variable with the <c>super</c> keyword, like with <c>specialName</c>:
 </p>
 
-<listing xml:id="oop_lst-using-super-constructor">
-    <caption>Using <c>super</c> in a Constructor</caption>
-  <program language="java">
+<listing xml:id="oop_lst-using-super">
+    <caption>Using <c>super</c></caption>
+  <program language="kotlin">
     <code>
-public class SaleItem extends Item {
-    private double discount; // as a decimal
 
-    public SaleItem(String name, String sku, double price,
-       double discount)  {
-       super(name, sku, price);
-       this.discount = Math.max(0,
-           Math.min(discount, 1.00));
-    }
-}
+    override val specialName: String = super.specialName + " Discounted!"
+
     </code>
   </program>
 </listing>
 
-<p>
-    Important: When calling a superclass constructor, the call to <c>super</c> <em>must</em> be the first non-comment line in the subclass's constructor.
-</p>
 
 <p>
 Here's the rest of the <c>SaleItem</c> code:
@@ -394,40 +381,28 @@ Here's the rest of the <c>SaleItem</c> code:
 <listing xml:id="oop_lst-saleItem-part-two">
   <program language="java">
     <code>
-    public double getDiscount() {
-        return this.discount;
-    }
+        override fun purchase(quantity: Int) : Double {
+            var cost = price * quantity * (1 - discount)
+            return cost
+        }
 
-    public void setDiscount(double discount) {
-        this.discount =
-            Math.max(0, Math.min(discount, 1.00));
-    }
+        override fun toString() : String {
+            return String.format("%s (%s): $%.2f - %.1f%% discount",name, sku, price, discount * 100.0)
+        }
 
-    public double purchase(int quantity) {
-        return (this.getPrice() * quantity) *
-            (1 - discount);
-    }
+        override fun equals(other: Any?) : Boolean {
+            if (other !is SaleItem) {
+                return false
+            }
+            return name.equals(other.name) &amp;&amp;
+             sku.equals(other.sku) &amp;&amp; 
+             price.equals(other.price) &amp;&amp; discount == other.discount
+        }
 
-    public String toString() {
-        return String.format("%s (%s): $%.2f - %.1f%% discount",
-            this.getName(), this.getSku(), this.getPrice(),
-            this.discount * 100.0);
-    }
-
-    public boolean equals(SaleItem other) {
-        return (this.getName().equals(other.getName()) &amp;&amp;
-            this.getSku().equals(other.getSku()) &amp;&amp;
-            this.getPrice() == other.getPrice() &amp;&amp;
-            this.discount == other.discount);
-    }
 }
     </code>
   </program>
 </listing>
-
-<p>
-Again, because <c>name</c>, <c>sku</c>, and <c>price</c> are <c>private</c> to the <c>Item</c> class, the <c>purchase</c>, <c>toString</c> and <c>equals</c> methods must use the getter methods to access those private values.
-</p>
 
 <p>
 <xref ref="oop_lst-test-item"/> creates an <c>Item</c> and a <c>SaleItem</c>, prints them, and then purchases ten of each:
@@ -435,28 +410,21 @@ Again, because <c>name</c>, <c>sku</c>, and <c>price</c> are <c>private</c> to t
 
 <listing xml:id="oop_lst-test-item">
     <caption>Testing the <c>Item</c> and <c>SaleItem</c> Classes</caption>
-  <program language="java">
+  <program language="kotlin">
     <code>
-public class ItemTest {
+fun main() {
+    val envelopes = Item("Letter Size Envelopes - 100 count",
+            "LSE-0100", 5.75)
+    val marker = SaleItem("Erasable marker - black", "EMB-913",
+            2.15, 0.10)
 
-    public static void main(String[] args) {
-        Item envelopes = new Item(
-            "Letter Size Envelopes - 100 count",
-            "LSE-0100", 5.75);
-        SaleItem marker = new SaleItem(
-            "Erasable marker - black", "EMB-913",
-            2.15, 0.10);
+    println(envelopes)
+    val envelopeTotal = envelopes.purchase(10)
+    println(String.format("Ten boxes of envelopes cost $%.2f", envelopeTotal))
 
-        System.out.println(envelopes);
-        double envelopeTotal = envelopes.purchase(10);
-        System.out.printf("Ten boxes of envelopes cost $%.2f\n",
-            envelopeTotal);
-
-        System.out.println(marker);
-        double markerTotal = marker.purchase(10);
-        System.out.printf("Ten markers cost $%.2f\n",
-            markerTotal);
-    }
+    println(marker)
+    val markerTotal = marker.purchase(10)
+    println(String.format("Ten markers cost $%.2f", markerTotal))
 }
     </code>
   </program>
@@ -481,7 +449,7 @@ Ten markers cost $19.35
 
 <aside>
     <p>
-        Joe Armstrong was the co-inventor of the Erlang programming language. It's totally different from Java, and it's  an incredibly interesting language.
+        Joe Armstrong was the co-inventor of the Erlang programming language. It's totally different from Kotlin, and it's  an incredibly interesting language.
     </p>
 </aside>
 
@@ -490,27 +458,27 @@ Part of making a program beautiful is getting rid of unnecessary duplication. In
 </p>
 
 <p>
-    We can once again use the <c>super</c> keyword to call methods in a parent class. <xref ref="oop_lst-super-eliminates-duplication"/> is a rewrite that eliminates unnecessary duplication:
+    We can once again use the <c>super</c> keyword to access variables in a parent class. <xref ref="oop_lst-super-eliminates-duplication"/> is a rewrite that eliminates unnecessary duplication:
 </p>
 
 <listing xml:id="oop_lst-super-eliminates-duplication">
-  <program language="java">
+  <program language="kotlin">
     <code>
-public double purchase(int quantity) {
-    return super.purchase(quantity) *
-        (1 - discount / 100.0);
-}
+        override fun purchase(quantity: Int) : Double {
+            var cost = super.purchase(quantity) * (1 - discount)
+            return cost
+        }
 
-public String toString() {
-    return String.format("%s - %.1f%% discount",
-        super.toString(),
-        this.discount * 100.0);
-}
+        override fun toString() : String {
+            return super.toString() + String.format(" - %.1f%% discount", discount * 100.0)
+        }
 
-public boolean equals(SaleItem other) {
-    return (super.equals(other) &amp;&amp;
-        this.discount == other.discount);
-}
+        override fun equals(other: Any?) : Boolean {
+            if (other !is SaleItem) {
+                return false
+            }
+            return super.equals(other) &amp;&amp; discount == other.discount
+        }
     </code>
   </program>
 </listing>
@@ -542,7 +510,7 @@ Finally, the <c>Customer</c> should have a <em>customer number</em> and <em>comp
 </p>
 
 <p>
-Draw the UML diagram showing the relationship of these classes, then code all these classes showing the data fields and attributes. Make meaningful names for the attributes and give them an appropriate data type. (You do not need to create constructors or other methods for the classes.)
+Write starter code for all these classes showing the data fields and attributes. Make meaningful names for the attributes and give them an appropriate data type. (You do not need to create constructors or other methods for the classes.)
 </p>
 </exercise>
 
@@ -551,7 +519,7 @@ Draw the UML diagram showing the relationship of these classes, then code all th
 The XYZZY Corporation wants to retain their most loyal customers. They launch a customer retention program and offer discount to customers who have been purchasing from the company for at least one year.
 </p>
 <p>
-Write a subclass <c>PreferredCustomer</c> that extends the <c>Customer</c> class from the preceding exercise. The <c>PrefCust</c> class should have two data fields: <em>average annual purchase amount</em> (average dollar amount purchased per year) and <em>years</em> (number of years they have been a customer). These are both private variables.
+Write a subclass <c>PreferredCustomer</c> that extends the <c>Customer</c> class from the preceding exercise. The <c>PrefCust</c> class should have two data fields: <em>average annual purchase amount</em> (average dollar amount purchased per year) and <em>years</em> (number of years they have been a customer). 
 </p>
 
 <p>
@@ -571,7 +539,7 @@ The discount percentage is a <em>derived attribute</em><mdash/>it is never set d
 </p>
 
 <p>
-Write the <c>PrefCust</c> class with all its data fields. Please write all the getter and setter methods.  Write a method named <c>getDiscount</c> that uses the average annual purchase amount and years as a customer to return the discount percent (as a percentage).
+Write the <c>PrefCust</c> class with all its data fields.  Write a method named <c>getDiscount</c> that uses the average annual purchase amount and years as a customer to return the discount percent (as a percentage).
 </p>
 
 </exercise>
@@ -588,7 +556,7 @@ Finally, you will write a program with a <c>main</c> method that works with thes
 </p>
 
 <p>
-Part 1: Create a class named <c>Account</c>, which has the following private properties:
+Part 1: Create a class named <c>Account</c>, which has the following properties:
 </p>
 
 <p>
@@ -601,9 +569,7 @@ Part 1: Create a class named <c>Account</c>, which has the following private pro
 <p>Here are the constructors and other methods:</p>
 <p>
     <ul>
-        <li><p>Create a two-parameter constructor that takes an account number and balance. Make sure that the balance is always greater than zero (<em>Hint</em>: <c>Math.abs</c>)</p></li>
-
-        <li><p>Implement getters and setters: <c>getNumber()</c>, <c>getBalance()</c>, and \newline <c>setBalance(double newBalance)</c>. There is no <c>setNumber</c> method<mdash/>once an account is created, its account number cannot change.</p></li>
+        <li><p>Create a two-parameter constructor that takes an account number and balance. Make sure that the balance is always greater than zero (<em>Hint</em>: <c>kotlin.math.abs</c>)</p></li>
 
         <li><p>Implement these methods: <c>void deposit(double amount)</c> and \newline <c>void withdraw(double amount)</c>. For both these methods, if the amount is less than zero, the account balance remains untouched. For the <c>withdraw</c> method, if the amount is greater than the balance, it remains untouched. <em>These methods do not print anything.</em></p></li>
 
@@ -611,13 +577,11 @@ Part 1: Create a class named <c>Account</c>, which has the following private pro
         </ul>
         </p>
 
-        <p>Part 2: Next, implement the <c>SavingsAccount</c> class. It inherits from <c>Account</c> and adds a private <c>apr</c> property, which is the annual percentage rate (APR) for interest.
+        <p>Part 2: Next, implement the <c>SavingsAccount</c> class. It inherits from <c>Account</c> and adds a <c>apr</c> property, which is the annual percentage rate (APR) for interest.
         </p>
 
         <p><ul>
         <li><p>Write a three-argument constructor that takes an account number, balance, and interest rate as a decimal (thus, a 3.5% interest rate is given as 0.035). Make sure that the interest rate is never less than zero.</p></li>
-
-        <li><p>Add a getter and setter: <c>getApr()</c> and <c>setApr(double apr)</c>. The setter must ensure that the APR is never less than zero.</p></li>
 
         <li><p>Write a <c>calculateInterest</c> instance method that returns the annual interest, calculated as the current balance times the annual interest rate.</p></li>
 
@@ -638,8 +602,6 @@ Part 1: Create a class named <c>Account</c>, which has the following private pro
 <p>
     <ul>
         <li><p>A four-argument constructor that takes an account number, balance, interest rate as a decimal (thus, a 3.5% interest rate is given as 0.035), and credit limit. Make sure that neither the interest rate nor credit limit can be negative.</p></li>
-
-        <li><p> Write getters and setters for the <c>apr</c> and <c>creditLimit</c>. The apr setter should leave the APR untouched if given a negative value. The <c>creditLimit</c> setter should leave the credit limit untouched if given a negative value.</p></li>
 
         <li><p> Modify <c>toString</c> to include the interest rate and credit limit. IMPORTANT: the value returned by the <c>toString</c> method must <em>not</em> include the monthly payment.</p></li>
 
@@ -663,7 +625,7 @@ Part 1: Create a class named <c>Account</c>, which has the following private pro
 <p>Part 4: Now, write a <c>Customer</c> class that will use composition to include the preceding classes.</p>
 <p>
     <ul>
-        <li><p>The <c>Customer</c> class has the following private attributes:</p>
+        <li><p>The <c>Customer</c> class has the following attributes:</p>
 
             <p>
                 <ul>
@@ -677,23 +639,27 @@ Part 1: Create a class named <c>Account</c>, which has the following private pro
 
         <li><p>Implement a four-argument constructor for this class.</p></li>
 
-        <li><p>Write getters and setters for all the fields.</p></li>
 </ul>
 </p>
 
-<p><xref ref="oop_fig-account-inheritance"/> shows the details of the <c>Account</c> class and its subclasses. <xref ref="oop_fig-account-classes"/> shows the relationships of all the classes in this exercise.</p>
+<!--
+<p><xref ref="oop_fig-account-inheritance"/> shows the details of the <c>Account</c> class and its subclasses.</p>
+-->
+<p><xref ref="oop_fig-account-classes"/> shows the relationships of all the classes in this exercise.</p>
 
+<!--
 <figure align="center" xml:id="oop_fig-account-inheritance">
     <caption><c>Account</c>, <c>SavingsAccount</c>, and <c>CreditCardAccount</c> classes</caption>
     <image source="AppendixOOP/Figures/account_inheritance.png" width="50%"/>
   </figure>
+  -->
 
 <figure align="center" xml:id="oop_fig-account-classes">
     <caption>Composition and Inheritance Among All Classes</caption>
     <image source="AppendixOOP/Figures/account_classes.png" width="50%"/>
   </figure>
 
-<p>Part 5: Finally, write a program named <em>TestCustomer.java</em> that creates a <c>Customer</c> named <q>Joe Doakes</q> with this data:
+<p>Part 5: Finally, write a program named <em>TestCustomer.kt</em> that creates a <c>Customer</c> named <q>Joe Doakes</q> with this data:
 </p>
 
 <p>
