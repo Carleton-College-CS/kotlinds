@@ -80,6 +80,17 @@ class Fraction(var numerator: Int, var denominator: Int) {
       <caption>An Instance of the <c>Fraction</c> Class</caption>
       <image source="Introduction/Figures/fraction_properties.png" width="50%" />
     </figure>
+
+    <p>Sometimes, you want to do some additional work at the time of initialization beyond just creating and setting the instance variables. You can do that additional work with an <c>init</c> block. For example, we could check the denominator isn't zero, as shown below: </p>
+    <program language="kotlin"><code>
+    class Fraction(var numerator: Int, var denominator: Int) {
+      init {
+          if (denominator == 0) {
+              throw IllegalArgumentException("Denominator cannot be zero")
+          }
+      }
+    </code></program>
+    
   </subsection>
 
   <subsection xml:id="introduction_printing_fraction">
