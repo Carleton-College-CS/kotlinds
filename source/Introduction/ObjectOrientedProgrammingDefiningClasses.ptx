@@ -400,11 +400,8 @@ println(f9)
     </listing>
 
     <p>This is what you need to know to create most of the classes we will use in this book. This is, after all, a review of <em>basic</em> Kotlin, and our goal is to teach you data structures, not Kotlin. 
-      
-      <!-- TODO: Put this back when appendix is done.
        However, we will also need the more advanced concepts of inheritance, polymorphism, interfaces, composition, and generics.
       See <xref ref="appendix_oop"/> for an overview of these concepts. We have put them in an Appendix so that this section can be kept to a reasonable length.
-     -->
     </p>
 
     <exercises>

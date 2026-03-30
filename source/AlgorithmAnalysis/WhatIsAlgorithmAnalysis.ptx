@@ -38,7 +38,7 @@
     necessary during the accumulation step.</p>
 
   <listing xml:id="lst-sum2">
-    <program label="lst-sum2" language="java">
+    <program label="lst-sum2" language="kotlin">
       <code><xi:include parse="text" href="samplecode/FindSum2.kt" /></code>
     </program>
   </listing>
@@ -69,10 +69,10 @@
     time</em> or <em>running
       time</em> of the algorithm. One way we can measure the execution time for the function <c>
     sumOfN</c> is to do a <term>benchmark analysis</term>. This means that we will track the actual
-    time required for the program to compute its result. In Java, we can benchmark a function by
+    time required for the program to compute its result. In Kotlin, we can benchmark a function by
     noting the starting time and ending time within the system we are using. In the <c>System</c>
     module there is a method called <c>nanoTime</c> that will return the amount of time that the
-    Java virtual machine has been running, in nanoseconds. By calling this function twice, at the
+    Kotlin virtual machine has been running, in nanoseconds. By calling this function twice, at the
     beginning and at the end, and then computing the difference, we can get the number of seconds
     (fractions in most cases) for execution.</p>
 
