@@ -169,21 +169,22 @@ Although a real-life toaster is composed of parts, all of the controls are on th
     <caption>Methods for Access to Composed Classes</caption>
   <program language="kotlin">
     <code>
-public boolean isTurnedOn() {
-    return this.power.isTurnedOn();
-}
+    fun isTurnedOn() : Boolean {
+        return power.turnedOn
+    }
 
-public void setTurnedOn(boolean turnedOn) {
-    this.power.setTurnedOn(turnedOn);
-}
+    fun setTurnedOn(turnedOn: Boolean) {
+        power.turnedOn = turnedOn
+    }
 
-public double getDialValue() {
-    return this.darkness.getDialValue();
-}
+    fun getDialValue() : Int {
+        return darkness.dialValue
+    }
 
-public void setDialValue(double dialValue) {
-    this.darkness.setDialValue(dialValue);
-}
+    fun setDialValue(dialValue : Int) {
+        darkness.dialValue = dialValue
+    }
+
     </code>
   </program>
 </listing>
@@ -379,7 +380,7 @@ Here's the rest of the <c>SaleItem</c> code:
 </p>
 
 <listing xml:id="oop_lst-saleItem-part-two">
-  <program language="java">
+  <program language="kotlin">
     <code>
         override fun purchase(quantity: Int) : Double {
             var cost = price * quantity * (1 - discount)

@@ -38,7 +38,7 @@
   <p>We could implement our own square root function by using a well-known technique called Newton's method or the Newton&#x2013;Raphson method, named after Isaac Newton and Joseph Raphson. The Newton&#x2013;Raphson method for approximating square roots performs an iterative computation that converges on the correct value. The equation <m>newguess = \frac {1}{2} * (oldguess + \frac {n}{oldguess})</m> takes a value <m>n</m> and repeatedly guesses the square root by making each <m>newguess</m> the <m>oldguess</m> in the subsequent iteration. The initial guess used here is <m>\frac {n}{2}</m>. <xref ref="introduction_lst-root" /> shows a program with a function definition that accepts a value <m>n</m> and returns the square root of <m>n</m> after making 20 guesses. Again, the details of the Newton&#x2013;Raphson method are hidden inside the function definition and the user does not have to know anything about the implementation to use the method for its intended purpose. <xref ref="introduction_lst-root" /> also shows the use of the <c>//</c> characters as a comment marker. Any characters that follow the <c>//</c> on a line are ignored.</p>
 
   <listing xml:id="introduction_lst-root">
-    <title>Newton-Raphson method for approximating square toots.</title>
+    <title>Newton-Raphson method for approximating square roots.</title>
     <program label="introduction_lst-root" language="kotlin" interactive="activecode">
       <code>
 <xi:include parse="text" href="samplecode/src/main/kotlin/MySquareRoot.kt"/>
