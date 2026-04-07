@@ -14,7 +14,7 @@
             type such as a stack is the creation of a new class. The stack
             operations are implemented as member functions. Further, to implement a stack,
             which is a collection of elements, it makes sense to utilize the power
-            and simplicity of the collections provided by Kotlin. We will
+            and simplicity of the collections provided by Kotlin. We will use
             a typical Kotlin mutable list.</p>
 
           <p>Recall that a mutable list in Kotlin provides an ordered collection mechanism and a set of methods. For example, if we have the list [2, 5, 3, 6, 7, 4], we need only to decide which end of the list will be considered the top of the stack and which will be the bottom (also referred to as the base of the stack). Once that decision is made, the operations can be implemented using the list methods such as <c>add</c> and <c>remove</c>.</p>
@@ -34,7 +34,7 @@
 </listing>
 
 <!-- TODO: fix this reference -->
-<p>Remember in our discussion of <c>MutableList</c> in <xref ref="introduction_arraylist"/> that we put the data type in angle brackets? This allowed us to have an <c>MutableList&lt;String&gt;</c>, <c>MutableList&lt;Int&gt;</c>, etc. We would also like to be able to create a <c>ListStack</c> whose elements are of any data type. To do this, we specify in line 1 that a stack has a <term>generic</term> data type.  The <c>T</c> is like a variable that, instead of holding an integer, double, or string value, holds a <em>data type</em>.  Thus, when we create a <c>ListStack&lt;String&gt;</c>, the data type <c>String</c> provides the value that fills in the generic <c>T</c>. The body of the class uses <c>T</c> anywhere that it needs the type of stack we are dealing with.</p>
+<p>You may be confused about <c>T</c> in the code above. Do you remember how, in our discussion of <c>MutableList</c> in <xref ref="introduction_arraylist"/>, we put the data type in angle brackets? This allowed us to have an <c>MutableList&lt;String&gt;</c>, <c>MutableList&lt;Int&gt;</c>, etc. We would also like to be able to create a <c>ListStack</c> whose elements are of any data type. To do this, we specify in line 1 that a stack has a <term>generic</term> data type.  The <c>T</c> is like a variable that, instead of holding an integer, double, or string value, holds a <em>data type</em>.  Thus, when we create a <c>ListStack&lt;String&gt;</c>, the data type <c>String</c> provides the value that fills in the generic <c>T</c>. The body of the class uses <c>T</c> anywhere that it needs the type of stack we are dealing with.</p>
 
   <p>Now we must write a program that creates a <c>ListStack</c> object and then uses it.
             <xref ref="lst-stacktest"/> shows the <c>ListStack</c> class in
@@ -50,7 +50,7 @@
   </program>
 </listing>
   <p>It is important to note that we could have chosen to implement the stack
-            using an list where the top is at the beginning instead of at the end. In
+            using a list where the top is at the beginning instead of at the end. In
             this case, the previous <c>pop</c> and <c>append</c> methods would no longer
             work and we would have to index position 0 (the first item in the list)
             explicitly using <c>remove</c> and <c>add</c>. The implementation is shown in
@@ -75,7 +75,7 @@
   </program>
 </listing>
 
-<p>Kotlin uses <em>type inferencing</em> to figure out the type of a variable while the program is compiling, before it begins running. When we enter code such as <c>val x = 3</c>, Kotlin automatically determines that the variable <c>x</c> must be types as an <c>Int</c> because we assign it to an integer. In the above program, however, the type of <c>myStack</c> is unknown until the program starts. Will it be a <c>ListStack</c>, or an <c>AltListStack</c>? Both stack implementations implement <c>StackADT</c>, so we can specify that the type of the variable <c>myStack</c> is <c>StackADT</c>. This is sufficient to allow the program to compile and run, and will work for either implementation.</p>
+<p>Kotlin uses <em>type inferencing</em> to figure out the type of a variable while the program is compiling, before it begins running. When we enter code such as <c>val x = 3</c>, Kotlin automatically determines that the variable <c>x</c> must be typed as an <c>Int</c> because we assign it to an integer. In the above program, however, the type of <c>myStack</c> is unknown until the program starts. Will it be a <c>ListStack</c>, or an <c>AltListStack</c>? Both stack implementations implement <c>StackADT</c>, so we can specify that the type of the variable <c>myStack</c> is <c>StackADT</c>. This is sufficient to allow the program to compile and run, because it will work for either implementation.</p>
 
   <exercises>
     <title>Self Check</title>
@@ -179,16 +179,20 @@ while (!m.isEmpty()) {
         </choice>
       </choices>
     </exercise>
+     <exercise label="stack_3">
+      <statement>
     <!-- TODO: This code doesn't run, I think there's a problem in the engine
      itself regarding included code that needs  to be fixed -->
     <p>Write a function named <c>reverseString</c> that takes a string as input and uses a stack to reverse the
-                characters in that string.</p>
+                characters in that string. The <c>ListStack</c> class is available to you.</p>
+    </statement>
     <program xml:id="stack_stringrev" language="kotlin" interactive="activecode"
              include="prog-stackcode1">
       <code>
         <xi:include parse="text" href="samplecode/src/main/kotlin/StackADT.kt" />
         ^^^^<xi:include parse="text" href="samplecode/src/main/kotlin/StringReverser.kt" /></code>
     </program>
+    </exercise>
   </exercises>
   <!--<video xml:id="stack1_video" youtube="fZtLSM7k_54" width="auto"/>-->
 </section>

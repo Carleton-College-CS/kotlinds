@@ -2,7 +2,8 @@ fun main() {
     val s = ListStack<String>()
     println("isEmpty returns ${s.isEmpty()}")
 
-    s.push("java")
+    s.push("kotlin")
+    s.push("data structures")
     s.push("keyboard")
     println("Top of stack is ${s.peek()}")
     s.push("computer")
