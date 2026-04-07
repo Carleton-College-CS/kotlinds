@@ -66,7 +66,7 @@ class LinkedUnorderedList&lt;T&gt; : UnorderedListADT&lt;T&gt; {
         <p>Initially when we construct a list, there are no items. The assignment
             statement</p>
         <pre>val myList = LinkedUnorderedList&lt;Int&gt;()</pre>
-        <p>creates the linked list representation shown in <xref ref="fig-initlinkedlist" />. As we discussed in the <c>Node</c> class, the special reference <c>null</c> will again be used to state that the head of the list does not refer to anything. Eventually, the example list given earlier will be represented by a linked list as shown in <xref ref="fig-linkedlist" />. The head of the list refers to the first node which contains the first item of the list. In turn, that node holds a reference to the next node (the next item), and so on. It is very important to note that the list class itself does not contain any node objects. Instead it contains a single reference to only the first node in the linked structure.</p>
+        <p>creates the linked list representation shown in <xref ref="fig-initlinkedlist" />. As we discussed in the <c>Node</c> class, the special reference <c>null</c> will again be used to state that the head of the list does not refer to anything. Eventually, the example list given earlier will be represented by a linked list as shown in <xref ref="fig-linkedlist" />. The head of the list refers to the first node, which contains the first item of the list. In turn, that node holds a reference to the next node (the next item), and so on. It is very important to note that the list class itself does not contain any node objects. Instead it contains a single reference to only the first node in the linked structure.</p>
         <figure xml:id="fig-initlinkedlist">
             <caption>An Empty List</caption>
             <image source="BasicDS/Figures/initlinkedlist.png" width="50%" />
@@ -75,7 +75,7 @@ class LinkedUnorderedList&lt;T&gt; : UnorderedListADT&lt;T&gt; {
             <caption>A Linked List of Ints</caption>
             <image source="BasicDS/Figures/linkedlist.png" width="50%" />
         </figure>
-        <p>The <c>isEmpty</c> function, shown in <xref ref="basic-ds_lst-isempty" />, checks to see if the head of the list is a reference to <c>null</c>. The result of the boolean expression <c>this.head == null</c> will only be true if there are no nodes in the linked list. Since a new list is empty, the constructor and the check for empty must be consistent with one another. This shows the advantage to using the reference <c>null</c> to denote the end of the linked structure. In Java, <c>null</c> can be compared to any reference. Two references are equal if they both refer to the same object. We will use this often in our remaining methods.</p>
+        <p>The <c>isEmpty</c> function, shown in <xref ref="basic-ds_lst-isempty" />, checks to see if the head of the list is a reference to <c>null</c>. The result of the boolean expression <c>this.head == null</c> will only be true if there are no nodes in the linked list. Since a new list is empty, the constructor and the check for empty must be consistent with one another. This shows the advantage to using the reference <c>null</c> to denote the end of the linked structure. In Kotlin, <c>null</c> can be compared to any reference. Two references are equal if they both refer to the same object. We will use this often in our remaining methods.</p>
         <listing xml:id="basic-ds_lst-isempty">
             <title>The <c>isEmpty</c> function</title>
             <program language="kotlin">
@@ -86,8 +86,8 @@ class LinkedUnorderedList&lt;T&gt; : UnorderedListADT&lt;T&gt; {
                 </code>
             </program>
         </listing>
-        <p>So how do we get items into our list? We need to implement the various <c>add</c> functions. We'll demonstrate the <c>addFirst</c> function here. For this function, we will make create a new new node right at the head, or beginning, of the list. The existing items will need to be linked to this new first item so that they follow.</p>
-        <p>The linked list shown in <xref ref="fig-linkedlist" /> could have been built by calling the <c>addFirst</c> method a number of times.</p>
+        <p>So how do we get items into our list? We need to implement the various <c>add</c> functions. We'll demonstrate the <c>addFirst</c> function here. For this function, we will create a new new node at the head, or beginning, of the list. The existing items will need to be linked to this new first item so that they follow.</p>
+        <p>The linked list shown in <xref ref="fig-linkedlist" /> could have been built by calling the <c>addFirst</c> method six times with the appropriate values:</p>
         <pre>myList.addFirst(31)
 myList.addFirst(77)
 myList.addFirst(17)
@@ -147,7 +147,7 @@ myList.addFirst(54)</pre>
             all the way to the end of the list. In fact, if we do get to the end of
             the list, that means that the item we are looking for must not be
             present. Also, if we do find the item, there is no need to continue.</p>
-        <p><xref ref="basic-ds_lst-search" /> shows the implementation for the <c>indexOf</c> method, which searches a list for an item and returns the index of its location. As in the <c>size</c> method, the traversal is initialized to start at the head of the list (line 2), and we initialize the location where we are looking (line 3). We continue to iterate over the list as long as there are more nodes to visit, incrementing the location as we go.. The question in line 5 asks whether the data item is present in the current node. If so, we return <c>location</c> immediately. If the loop exits without returning indicating that we failed to find the item, we return an index of -1.</p>
+        <p><xref ref="basic-ds_lst-search" /> shows the implementation for the <c>indexOf</c> method, which searches a list for an item and returns the index of its location. As in the <c>size</c> method, the traversal is initialized to start at the head of the list (line 2), and we initialize the location where we are looking (line 3). We continue to iterate over the list as long as there are more nodes to visit, incrementing the location as we go. The question in line 5 asks whether the data item is present in the current node. If so, we return <c>location</c> immediately. If the loop exits without returning, indicating that we failed to find the item, we return an index of -1.</p>
         <listing xml:id="basic-ds_lst-search">
             <title>Searching a Linked List</title>
             <program language="kotlin" line-numbers="yes">
@@ -179,13 +179,13 @@ println(index); // prints 3
             <caption>Successful Search for the Value 17</caption>
             <image source="BasicDS/Figures/search.png" width="50%" />
         </figure>
-        <p>The <c>remove</c> method requires two logical steps. First, we need to traverse the list looking for the first occurrence of the item we want to remove. Once we find the item, we must remove it. If the item is not in the list we leave the list unchanged.</p>
+        <p>The <c>remove</c> method requires two logical steps. First, we need to traverse the list looking for the first occurrence of the item we want to remove. Once we find the item, we must remove it. If the item is not in the list, we leave the list unchanged.</p>
         <p>The first step is very similar to <c>indexOf</c>. Starting with an external reference set to the head of the list, we traverse the links until we discover the item we are looking for.</p>
         <p>When the item is found and we break out of the loop, <c>current</c> will be a reference to the node containing the item to be removed. But how do we remove it? One possibility would be to replace the value of the item with some marker that suggests that the item is no longer present. The problem with this approach is the number of nodes will no longer match the number of items. It would be much better to remove the item by removing the entire node.</p>
         <p>In order to remove the node containing the item, we need to modify the link in the previous node so that it refers to the node that comes after <c>current</c>. Unfortunately, there is no way to go backward in the linked list. Since <c>current</c> refers to the node ahead of the node where we would like to make the change, it is too late to make the necessary modification.</p>
         <p>The solution to this dilemma is to use two external references as we traverse down the linked list. <c>current</c> will behave just as it did before, marking the current location of the traversal. The new reference, which we will call <c>previous</c>, will always travel one node behind <c>current</c>. That way, when <c>current</c> stops at the node to be removed, <c>previous</c> will refer to the proper place in the linked list for the modification.</p>
         <p><xref ref="basic-ds_lst-remove" /> shows the complete <c>remove</c> method. Lines 2&#x2013;3 assign initial values to the two references. Note that <c>current</c> starts out at the list head as in the other traversal examples. <c>previous</c>, however, is assumed to always travel one node behind <c>current</c>. For this reason, <c>previous</c> starts out with a value of <c>null</c> since there is no node before the head (see <xref ref="fig-removeinit" />).</p>
-        <p>In line 5 we decide whether to continue the loop or not. We continue if it we haven't reached the end of the list (the first condition) and the item at the current location isn't the one we're looking for (the second condition). If we do not find the item, <c>previous</c> and <c>current</c> must both be moved one node ahead.</p>
+        <p>In line 5 we decide whether to continue the loop or not. We continue if we haven't reached the end of the list (the first condition) and the item at the current location isn't the one we're looking for (the second condition). If we do not find the item, <c>previous</c> and <c>current</c> must both be moved one node ahead.</p>
         <p>Again, the order of these two statements is crucial. <c>previous</c> must first be moved one node ahead to the location of <c>current</c>. At that point, <c>current</c> can be moved. This process is often referred to as <em>inchworming</em>, as <c>previous</c> must catch up to <c>current</c> before <c>current</c> moves ahead. <xref ref="fig-prevcurr" /> shows the movement of <c>previous</c> and <c>current</c> as they progress down the list looking for the node containing the value 17.</p>
         <listing xml:id="basic-ds_lst-remove">
             <title>Removing an Item from a Linked List</title>
@@ -272,7 +272,7 @@ println(index); // prints 3
 
             <exercise>
 
-                <p>In the previous problem, you most likely created an <c>addLast</c> function that was <m>O(n)</m> If you add an instance variable to the LinkedUnorderedList class you can create an <c>addLast</c> method that is <m>O(1)</m>. Modify your <c>addLast</c> method to be <m>O(1)</m> Be Careful! To really do this correctly, you will need to consider a couple of special cases that may require you to simultaneously write the <c>add</c> function as well.</p>
+                <p>In the previous problem, you most likely created an <c>addLast</c> function that was <m>O(n)</m>. If you add an instance variable to the LinkedUnorderedList class you can create an <c>addLast</c> method that is <m>O(1)</m>. Modify your <c>addLast</c> method to be <m>O(1)</m>. Be careful! To really do this correctly, you will need to consider a couple of special cases that may require you to simultaneously write the <c>add</c> function as well.</p>
             </exercise>
 
         </exercises>
