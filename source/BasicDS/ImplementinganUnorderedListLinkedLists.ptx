@@ -81,7 +81,7 @@ class LinkedUnorderedList&lt;T&gt; : UnorderedListADT&lt;T&gt; {
             <program language="kotlin">
                 <code>
     override fun isEmpty(): Boolean {
-        return head != null
+        return head == null
     }
                 </code>
             </program>

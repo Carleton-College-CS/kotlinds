@@ -56,7 +56,7 @@ class LinkedUnorderedList<T> : UnorderedListADT<T> {
     // Returns true if there are no items in the list;
     // false otherwise.
     override fun isEmpty(): Boolean {
-        return head != null
+        return head == null
     }
 
 
