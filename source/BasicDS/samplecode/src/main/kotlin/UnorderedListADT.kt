@@ -1,6 +1,6 @@
 interface UnorderedListADT<T> {
 
-    // Add (insert) a new item to the end of the list.
+    // Add (insert) a new item to the start of the list.
     fun addFirst(item: T)
 
     // Add (insert) a new item to the end of the list.
