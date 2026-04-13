@@ -7,7 +7,7 @@
   <p>
     <ul>
       <li>
-        <p><c>addFirst(item)</c> adds a new item to the end of the list making it the first item in the collection. It needs the item and returns nothing.</p>
+        <p><c>addFirst(item)</c> adds a new item to the beginning of the list making it the first item in the collection. It needs the item and returns nothing.</p>
       </li>
       <li>
         <p><c>addLast(item)</c> adds a new item to the end of the list making it the last item in the collection. It needs the item and returns nothing.</p>
