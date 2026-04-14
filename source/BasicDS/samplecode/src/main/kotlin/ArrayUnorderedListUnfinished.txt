@@ -1,6 +1,6 @@
 class ArrayUnorderedList<T> : UnorderedListADT<T> {
 
-    // Create an initial array, of size 1
+    // Create an initial array, of size 10
     @Suppress("UNCHECKED_CAST")
     private var array = arrayOfNulls<Any?>(10) as Array<T?>
 
