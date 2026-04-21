@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <section xml:id="trees_nodes-and-references" xmlns:xi="http://www.w3.org/2001/XInclude">
     <title>Nodes and References</title>
-    <p>We will implement a binary search tree using nodes and references. Specifically, we will define a class that represents a single note in the binary tree. Because the term <em>root</em> often refers to the entire tree, we will refer to the value in a particular node as the <em>key</em>. A node therefore has attributes for the key value as well as the left and right subtrees. Using nodes and references, we might think of the tree as being structured like the one shown in <xref ref="i14_id1fig-treerec" />.</p>
+    <p>We will implement a binary tree using nodes and references. Specifically, we will define a class that represents a single node in the binary tree. Because the term <em>root</em> often refers to the entire tree, we will refer to the value in a particular node as the <em>key</em>. A node therefore has attributes for the key value as well as the left and right subtrees. Using nodes and references, we might think of the tree as being structured like the one shown in <xref ref="i14_id1fig-treerec" />.</p>
     <figure xml:id="i14_id1fig-treerec">
         <caption>A Simple Tree Using a Nodes and References Approach</caption>
         <image source="Trees/Figures/treerecs2.png" width="50%">
@@ -66,7 +66,7 @@ class BinaryTree&lt;T&gt;(var key: T) {
         </program>
     </listing>
 
-    <p>Now that we have all the pieces to create and manipulate a binary tree, let's use them to check on the structure a bit more. Let's make a simple tree with node a as the root, and add nodes <q>b</q> and <q>c</q> as children. <xref ref="lst-comptest" /> creates the tree and looks at the some of the values stored in <c>key</c>, <c>leftChild</c>, and <c>rightChild</c>. Notice that both the left and right children of the root are themselves distinct instances of the <c>BinaryTree</c> class. As we said in our original recursive definition for a tree, this allows us to treat any child of a binary tree as a binary tree itself.</p>
+    <p>Now that we have all the pieces to create and manipulate a binary tree, let's use them to check on the structure a bit more. Let's make a simple tree with node <q>a</q> as the root, and add nodes <q>b</q> and <q>c</q> as children. <xref ref="lst-comptest" /> creates the tree and looks at the some of the values stored in <c>key</c>, <c>leftChild</c>, and <c>rightChild</c>. Notice that both the left and right children of the root are themselves distinct instances of the <c>BinaryTree</c> class. As we said in our original recursive definition for a tree, this allows us to treat any child of a binary tree as a binary tree itself.</p>
 
     <p>In this test code, we often use the <c>!!</c> operator to ignore null safety checks. We are choosing in this example to do so to keep the code brief, to make it easier to see what's happening.</p>
     <listing xml:id="lst-comptest">

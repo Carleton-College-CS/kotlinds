@@ -55,7 +55,7 @@ fun preorder(tree: BinaryTree&lt;String&gt;?) {
 </code>
         </program>
     </listing>
-    <p>Which of these two ways to implement <c>preorder</c> is best? The answer is that implementing <c>preorder</c> as an external function is probably better in this case. The reason is that you very rarely want to just traverse the tree and print its values. In most cases, you will want to accomplish something else while using one of the basic traversal patterns. In fact, we will see in the next example that the <c>postorder</c> traversal pattern follows very closely with the code we wrote earlier to evaluate a parse tree. Therefore, we will write the rest of the traversals as external function.</p>
+    <p>Which of these two ways to implement <c>preorder</c> is best? The answer is that implementing <c>preorder</c> as an external function is probably better in this case. The reason is that you very rarely want to just traverse the tree and print its values. In most cases, you will want to accomplish something else while using one of the basic traversal patterns. In fact, we will see in the next example that the <c>postorder</c> traversal pattern follows very closely with the code we wrote earlier to evaluate a parse tree. Therefore, we will write the rest of the traversals as external functions.</p>
 
     <p>The algorithm for the <c>postorder</c> traversal, shown in <xref ref="trees_lst-postorder1" />, is nearly identical to <c>preorder</c> except that we move the call to print to the end of the function.</p>
     <listing xml:id="trees_lst-postorder1">
