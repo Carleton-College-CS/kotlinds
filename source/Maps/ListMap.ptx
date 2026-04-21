@@ -5,7 +5,7 @@
     <subsection xml:id="mapset">
         <title>Implementing a Map with a List</title>
 
-        <p> One of the simplest way to implement a map is with a list. This is not an efficient approach, but it's a good one to start with so we can use it for comparison purposes. We can use one of our own custom-built list classes, or we can use the built-in Kotlin mutable list. We'll use a mutable list for simplicity, and store an <c>Entry</c> object, which will store a key and a value within. For each of our methods, we will loop over the list in order to perform the necessary action. Code for this is shown in <xref ref="lst-listset" />.</p>
+        <p> One of the simplest ways to implement a map is with a list. This is not an efficient approach, but it's a good one to start with so we can use it for comparison purposes. We can use one of our own custom-built list classes, or we can use the built-in Kotlin <c>MutableList</c>. We'll use a mutable list for simplicity, and store an <c>Entry</c> object, which will store a key and a value within. For each of our methods, we will loop over the list in order to perform the necessary action. Code for this is shown in <xref ref="lst-listset" />.</p>
 
         <listing xml:id="lst-listmap">
             <title>Map Implemented with a List</title>
