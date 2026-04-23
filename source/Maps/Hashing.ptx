@@ -196,16 +196,20 @@
     <p>When we want to search for an item, we use the hash function to generate
       the slot where it should reside. Since with chaining each slot holds a collection, we
       use a searching technique to decide whether the item is present. The
-      advantage is that on the average there are likely to be many fewer items
+      advantage is that on average there are likely to be many fewer items
       in each slot, so the search is perhaps more efficient.</p>
   </subsection>
 
 
   <subsection xml:id="sort-search_analysis-of-hashing">
     <title>Analysis of Hashing</title>
-    <p>We stated earlier that in the best case hashing would provide an <m>O(1)</m>, constant time search technique. However, due to collisions, the number of comparisons is typically not so simple. Even though a complete analysis of hashing is beyond the scope of this text, we can state some well-known results that approximate the number of comparisons necessary to search for an item.</p>
+    <p>We stated earlier that in the best case hashing would provide an <m>O(1)</m>, constant time, search technique. However, due to collisions, the number of comparisons is typically not so simple. Even though a complete analysis of hashing is beyond the scope of this text, we can state some well-known results that approximate the number of comparisons necessary to search for an item.</p>
     <p>The most important piece of information we need to analyze the use of a hash table is the load factor, <m>\lambda</m>. Conceptually, if <m>\lambda</m> is small, then there is a lower chance of collisions, meaning that items are more likely to be in the slots where they belong. If <m>\lambda</m> is large, meaning that the table is filling up, then there are more and more collisions. This means that collision resolution is more difficult, requiring more comparisons to find an empty slot. With chaining, increased collisions means an increased number of items on each chain.</p>
-    <p>For a successful search using open addressing with linear probing, the average number of comparisons is approximately <m>\frac{1}{2}\left(1+\frac{1}{1-\lambda}\right)</m> and an unsuccessful search gives <m>\frac{1}{2}\left(1+\left(\frac{1}{1-\lambda}\right)^2\right)</m>. If we are using chaining, the average number of comparisons is <m>1 + \frac {\lambda}{2}</m> for the successful case, and simply <m>\lambda</m> comparisons if the search is unsuccessful.</p>
+    <p>For an unsuccessful search using open addressing with linear probing, the average number of comparisons is approximately <m>\frac{1}{2}\left(1+\left(\frac{1}{1-\lambda}\right)^2\right)</m>. It is outside the scope of this book to fully dig into the details of this expression, however here is a high level idea. For the unsuccessful search, the <m>\frac{1}{2}</m> term comes from averaging across all possible probing sequences, the <m>1 +</m> is the first slot you check when starting a probe sequence, and the <m>\left(\frac{1}{1-\lambda}\right)^2</m> term uses concepts from probability theory to capture the idea that as the load factor increases, the likelihood of hitting a cluster increases, along with the size of the clusters, and therefore the number of steps it takes to get out of the cluster.  </p>
+
+    <p>For a successful search using open addressing with linear probing, the average number of comparisons is approximately <m>\frac{1}{2}\left(1+\frac{1}{1-\lambda}\right)</m>. The <m>1 +</m> is again the initial check and <m>\frac{1}{1-\lambda}</m> is the expected number of probes in a random distribution of items. The <m>\frac{1}{2}</m> is coming from the idea that a successful search will only need to look halfway through a cluster to find an item on average.</p>
+    
+    <p>If we are using chaining, the average number of comparisons is <m>1 + \frac {\lambda}{2}</m> for the successful case, and simply <m>\lambda</m> comparisons if the search is unsuccessful. Again, the details are outside the scope of this book, however the idea for an unsuccessful search is that the load factor represents the average length of the linked lists in the slots, and you have to look through the entire list for a given slot. For a successful search, you will again need to check at least one item, and then on average you will need to search half the length of the list in the slot.</p>
   </subsection>
 
   <subsection xml:id="subsec-disadvantages-of-hashing">
