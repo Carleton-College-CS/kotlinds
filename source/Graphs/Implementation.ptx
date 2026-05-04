@@ -11,7 +11,7 @@
     <p>A: We need it for the case where we want to add a vertex to the graph that has no neighbors. Most graphs that we show as examples are <em>connected</em>, meaning that any vertex is reachable from any other node, but this is not always the case.</p>
   </aside>
 
-  <p>There are also methods for returning neighbors associated for a particular vertex. Specifically, the <c>getNeighbors</c> method returns a set of the vertices adjacent to a particular vertex. The <c>getWeight</c> method can then be used to get the weight associated with a particular edge.</p>
+  <p>There are also methods for returning neighbors associated with a particular vertex. Specifically, the <c>getNeighbors</c> method returns a set of the vertices adjacent to a particular vertex. The <c>getWeight</c> method can then be used to get the weight associated with a particular edge.</p>
 
   <p>Our implementation can represent either a directed graph or an undirected graph. Since this is an adjacency list implementation, the code for the two are nearly identical. For an undirected graph, if we have an edge between A and B, we store it as two directed edges: one from A to B, and one from B to A. So the only difference in the two implementations is in the <c>addEdge</c> method, which adds both directions for an edge if the graph is undirected. We handle this with a boolean variable in the constructor for the graph indicating whether it should be handled as a directed or an undirected graph.</p>
 

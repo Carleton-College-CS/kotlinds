@@ -28,9 +28,9 @@
 
         <figure xml:id="i16_id1fig-unbal"><caption>An Unbalanced Right-Heavy Tree with Balance Factors</caption><image source="Trees/Figures/unbalanced.png" width="50%"/></figure>
 
-        <p> To bring an unbalanced AVL tree back into balance, we need to perform <term>rotation</term>. We'll get into all the details in the following sections, but the basic idea is that we will take a subtree that is unbalanced and rotate it to the left or right to bring it back into balance. <xref ref="i18_id1fig-unbalsimple"/> shows an example of a left rotation on a simple unbalanced tree.</p>
+        <p> To bring an unbalanced AVL tree back into balance, we need to perform <term>rotation</term>. We'll get into all the details in the following sections, but the basic idea is that we will take a subtree that is unbalanced and rotate it to the left or right to bring it back into balance. <xref ref="example-unbalsimple"/> shows an example of a left rotation on a simple unbalanced tree.</p>
 
-          <figure xml:id="i18_id1fig-unbalsimple">
+          <figure xml:id="example-unbalsimple">
         <caption>Transforming an Unbalanced Tree Using a Left Rotation</caption>
         <image source="Trees/Figures/simpleunbalanced.png" width="50%" />
         </figure>
