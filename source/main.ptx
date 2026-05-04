@@ -25,9 +25,13 @@
           <personname>David R. Musicant</personname>
           <institution>Carleton College</institution>
         </author>
+        <author>
+          <personname>Anya E. Vostinar</personname>
+          <institution>Carleton College</institution>
+        </author>
         <copyright>
           <year>2026</year>
-          <holder>Brad Miller, David Ranum, Roman Yasinovskyy, J. David Eisenberg, David R. Musicant</holder>
+          <holder>Brad Miller, David Ranum, Roman Yasinovskyy, J. David Eisenberg, David R. Musicant, Anya E. Vostinar</holder>
           <shortlicense> This work is licensed under the <url href="https://creativecommons.org/licenses/by-nc-sa/4.0/\">Creative Commons Attribution-NonCommercial-Share Alike 4.0 International license</url>.
           <image source="by-nc-sa.png"
               width="20%"

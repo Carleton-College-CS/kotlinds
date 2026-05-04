@@ -30,7 +30,7 @@
     </program>
   </listing>
 
-  <p>We will likewise similar add a similar update to our set ADT.</p>
+  <p>We will likewise add a similar update to our set ADT.</p>
 
   <listing xml:id="bst-comparableset-interface">
     <title>Interface representing Comparable Set ADT</title>
