@@ -1,7 +1,7 @@
 <section xml:id="trees_search-tree-implementation" xmlns:xi="http://www.w3.org/2001/XInclude">
     <title>Search Tree Implementation</title>
     <introduction>
-        <p>A binary search tree (BST) relies on the property that keys that are less than the parent are found in the left subtree, and keys that are greater than the parent are found in the right subtree. We will call this the <term>BST property</term>. As we implement the <c>ComparableMapADT</c> interface as described above, the BST property will guide our implementation. <xref ref="i146_id1fig-simplebst" /> illustrates this property of a binary search tree, showing the keys without any associated values. Notice that the property holds for each parent and child. All of the keys in the left subtree are less than the key in the root. All of the keys in the right subtree are greater than the root.</p>
+        <p>A binary search tree (BST) relies on the property that keys that are less than the parent are found in the left subtree, and keys that are greater than the parent are found in the right subtree. We will call this the <term>BST property</term>. As we implement the <c>ComparableMapADT</c> interface as described previously, the BST property will guide our implementation. <xref ref="i146_id1fig-simplebst" /> illustrates this property of a binary search tree, showing the keys without any associated values. Notice that the property holds for each parent and child. All of the keys in the left subtree are less than the key in the root. All of the keys in the right subtree are greater than the root.</p>
         <figure xml:id="i146_id1fig-simplebst">
             <caption>A Simple Binary Search Tree</caption>
             <image source="Trees/Figures/simpleBST.png" width="50%" />
@@ -36,7 +36,7 @@ class BSTMap&lt;K : Comparable&lt;K&gt;, V&gt; : ComparableMapADT&lt;K, V&gt; {
 
         <p>The <c>TreeNode</c> class provides many helper methods that make the work done in the <c>BSTMap</c> class methods much easier. The start for the <c>TreeNode</c> class, along with these helper methods, is shown in <xref ref="trees_lst-bst2" />. We will put this class definition <em>inside</em> the <c>BinarySearchTree</c> class, and declare it as an <em>inner class</em>. This will automatically give a <c>TreeNode</c> access to all the <c>BinarySearchTree</c> properties, including the generic types <c>K</c> and <c>V</c>. As you can see in the listing, many of these helper methods help to classify a node according to its own position as a child (left or right) and the kind of children the node has. The <c>TreeNode</c> class will also explicitly keep track of the parent as an attribute of each node. You will see why this is important when we discuss the implementation for the <c>remove</c> method in <xref ref="remove-key-binary-search-tree" />.</p>
 
-        <p>On lines 4 <ndash /> 6, we have added default values of null for each of the attributes shown. Sometimes, we want to construct a <c>TreeNode</c> without only some of the information, so the default values can fill in the remaining values for us.</p>
+        <p>On lines 4 <ndash /> 6, we have added default values of null for each of the attributes shown. Sometimes, we want to construct a <c>TreeNode</c> with only some of the information, so the default values can fill in the remaining values for us.</p>
         <listing xml:id="trees_lst-bst2">
             <title>Start of TreeNode class.</title>
 
@@ -151,7 +151,7 @@ class BSTMap&lt;K : Comparable&lt;K&gt;, V&gt; : ComparableMapADT&lt;K, V&gt; {
 
         <note>
             <title>Kotlin Note</title>
-            <p>There are two methods named <c>put</c>, but Kotlin does not have a problem with this because they have different <term>method signatures</term>: the method name, the number, and types of arguments. As long as these are different, there is no ambiguity when Kotlin needs to figure out whch method to call. The return type, the access (public or private), and whether or not <c>override</c> is present are <em>not</em> part of the method signature.</p>
+            <p>There are two methods named <c>put</c>, but Kotlin does not have a problem with this because they have different <term>method signatures</term>: the method name, the number, and types of arguments. As long as these are different, there is no ambiguity when Kotlin needs to figure out which method to call. The return type, the access (public or private), and whether or not <c>override</c> is present are <em>not</em> part of the method signature.</p>
         </note>
         <p><xref ref="i146_id2fig-bstput" /> illustrates the process for inserting a new node into a binary search tree. The lightly shaded nodes indicate the nodes that were visited during the insertion process.</p>
         <figure align="center" xml:id="i146_id2fig-bstput">
@@ -407,7 +407,7 @@ fun main() {
 
         <aside>
             <title>Null safety regarding parent</title>
-            <p>In line 2, we confirm that <c>currentParent</c> (define in <xref ref="trees_lst-remove-key-1" /> as the parent of the current node) is not null. This must be the case, because the <c>removeNode</c> method is never called if there is only a single node in the tree. Therefore, this node cannot be a leaf and also have no parent. By using <c>checkNotNull</c>, Kotlin will allow us to proceed without further null checks on this variable.</p>
+            <p>In line 2, we confirm that <c>currentParent</c> (defined in <xref ref="trees_lst-remove-key-1" /> as the parent of the current node) is not null. This must be the case, because the <c>removeNode</c> method is never called if there is only a single node in the tree. Therefore, this node cannot be a leaf and also have no parent. By using <c>checkNotNull</c>, Kotlin will allow us to proceed without further null checks on this variable.</p>
         </aside>
         <listing xml:id="trees_lst-remove-case-1">
             <title>Removing a Leaf Node</title>
@@ -503,7 +503,7 @@ fun main() {
 
         <p>The third case is the most difficult case to handle. If a node has two children, then it is unlikely that we can simply promote one of them to take the node&#x2019;s place. We can, however, search the tree for a node that can be used to replace the one scheduled for deletion. What we need is a node that will preserve the binary search tree relationships for both of the existing left and right subtrees. The node that will do this is the node that has the next-largest key in the tree. We call this node the <term>successor</term>, and we will look at how to find the successor shortly. The successor is guaranteed to have no more than one child, so we know how to remove it using the two cases for deletion that we have already implemented. Once the successor has been removed, we put it in the tree in place of the node to be deleted. The code to handle the third case is shown in <xref ref="trees_lst-remove-key-3" />.</p>
 
-        <p>In <xref ref="trees_lst-remove-key-3" /> we make use of the helper methods <c>findSuccessor</c> and <c>spliceOut</c> to find and remove the successor. The reason we use <c>spliceOut</c> is that it goes directly to the node we want to splice out and makes the right changes. We could call <c>remove</c> recursively, but then we would waste time searching again for the key node. The code goes after the code for removing a node with no children.</p>
+        <p>In <xref ref="trees_lst-remove-key-3" /> we make use of the helper methods <c>findSuccessor</c> and <c>spliceOut</c> to find and remove the successor. The reason we use <c>spliceOut</c> is that it goes directly to the node we want to splice out and makes the right changes. We could call <c>remove</c> recursively, but then we would waste time searching again for the key node. The following code goes after the code for removing a node with no children.</p>
 
         <listing xml:id="trees_lst-remove-key-3">
             <title>Removing a node with two children</title>
@@ -522,7 +522,7 @@ fun main() {
             </program>
         </listing>
 
-        <p>The code to find the successor is shown below (see <xref ref="lst_find-successor" /> ) and as you can see is a method of the <c>TreeNode</c> class. THis code makes use of the same properties of binary search trees that cause an inorder traversal to print out the nodes in the tree from smallest to largest. There are three cases to consider when looking for the successor:</p>
+        <p>The code to find the successor is shown below (see <xref ref="lst_find-successor" /> ) and as you can see is a method of the <c>TreeNode</c> class. This code makes use of the same properties of binary search trees that cause an inorder traversal to print out the nodes in the tree from smallest to largest. There are three cases to consider when looking for the successor:</p>
         <p>
             <ol marker="1">
                 <li>
@@ -577,6 +577,8 @@ fun main() {
         }
 
         // This function self-removes a node. It connects
+        // the parent of the node to be removed to the child 
+        // of the node to be removed.
         fun spliceOut() {
 
             // Local copies for null safety
@@ -584,7 +586,7 @@ fun main() {
             val leftChild = this.leftChild
             val rightChild = this.rightChild
 
-            // spliceOut should only be legitimately be used called
+            // spliceOut should only be legitimately be used 
             // for a node which has a parent
             checkNotNull(parent)
 
@@ -631,7 +633,7 @@ fun main() {
 
         <p>Kotlin provides us with a very powerful function to use when creating an iterator. The function is called <c>yield</c>. <c>yield</c> is similar to <c>return</c> in that it returns a value to the caller. However, yield also takes the additional step of freezing the state of the function so that the next time the function is called it continues executing from the exact point it left off earlier.</p>
 
-        <p>We first need to notify Kotlin that a <c>TreeNode</c> is something we an iterate over. We do that in the header for the <c>TreeNode</c> class, indicating that it implements the <c>Iterable</c> interface:</p>
+        <p>We first need to notify Kotlin that a <c>TreeNode</c> is something we can iterate over. We do that in the header for the <c>TreeNode</c> class, indicating that it implements the <c>Iterable</c> interface:</p>
 
         <listing xml:id="lst_treenode-iter-header">
             <title>Iterator for a Tree Node</title>
