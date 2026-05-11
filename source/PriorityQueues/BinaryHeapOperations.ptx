@@ -8,10 +8,10 @@
     <p>
       <ul>
         <li>
-          <p><c>PriorityQueue()</c> creates a new empty binary heap.</p>
+          <p><c>PriorityQueue()</c> creates a new empty priority queue.</p>
         </li>
         <li>
-          <p><c>PriorityQueue(list)</c> builds a new heap from a list of items.</p>
+          <p><c>PriorityQueue(list)</c> builds a new priority queue from a list of items.</p>
         </li>
         <li>
           <p><c>insert(k)</c> adds a new item to the priority queue.</p>
@@ -23,7 +23,7 @@
           <p><c>delete()</c> returns the item with the minimum key value, removing the item from the priority queue.</p>
         </li>
         <li>
-          <p><c>isEmpty()</c> returns <c>True</c> if the heap is empty, <c>False</c> otherwise.</p>
+          <p><c>isEmpty()</c> returns <c>True</c> if the priority queue is empty, <c>False</c> otherwise.</p>
         </li>
         <li>
           <p><c>size()</c> returns the number of items in the priority queue.</p>
