@@ -8,10 +8,10 @@
     <p>
       <ul>
         <li>
-          <p><c>PriorityQueue()</c> creates a new empty binary heap.</p>
+          <p><c>PriorityQueue()</c> creates a new empty priority queue.</p>
         </li>
         <li>
-          <p><c>PriorityQueue(list)</c> builds a new heap from a list of items.</p>
+          <p><c>PriorityQueue(list)</c> builds a new priority queue from a list of items.</p>
         </li>
         <li>
           <p><c>insert(k)</c> adds a new item to the priority queue.</p>
@@ -23,7 +23,7 @@
           <p><c>delete()</c> returns the item with the minimum key value, removing the item from the priority queue.</p>
         </li>
         <li>
-          <p><c>isEmpty()</c> returns <c>True</c> if the heap is empty, <c>False</c> otherwise.</p>
+          <p><c>isEmpty()</c> returns <c>True</c> if the priority queue is empty, <c>False</c> otherwise.</p>
         </li>
         <li>
           <p><c>size()</c> returns the number of items in the priority queue.</p>
@@ -73,7 +73,7 @@ Deleting items:
 7
 11
   </pre>
-    <p> Notice that no matter what order we add items to the heap, the smallest
+    <p> Notice that no matter what order we add items to the priority queue, the smallest
       is removed each time.</p>
   </subsection>
 
@@ -130,7 +130,7 @@ Deleting items:
   <subsection xml:id="sec-pq-max-vs-min">
     <title>Maximum Value Vs Minimum Value</title>
 
-    <p>In defining the Priority Queue ADT, we've made a somewhat arbitrary choice: we've chosen to define it as one in the item with <em>minimum</em> value is the one which is retrieved next. We could have defined it the other way around. Regardless, a single priority queue definition is sufficient. In the example in the previous section, if we had wanted animals with highest value to be highest priority, we would have just defined our <c>compareTo</c> method in our data class to subtract in the opposite direction.</p>
+    <p>In defining the Priority Queue ADT, we've made a somewhat arbitrary choice: we've chosen to define it as one in which the item with the <em>minimum</em> value is the one which is retrieved next. We could have defined it the other way around. Regardless, a single priority queue definition is sufficient. In the example in the previous section, if we had wanted animals with highest value to be highest priority, we would have just defined our <c>compareTo</c> method in our data class to subtract in the opposite direction.</p>
 
   </subsection>
 

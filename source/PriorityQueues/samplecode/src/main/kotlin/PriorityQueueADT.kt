@@ -23,6 +23,6 @@ interface PriorityQueueADT<E: Comparable<E>> {
     // Returns true if priority queue is empty, false otherwise
     fun isEmpty(): Boolean
 
-    // Returns the number of items in the heap.
+    // Returns the number of items in the priority queue.
     fun size(): Int
 }
