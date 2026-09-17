@@ -325,6 +325,6 @@ fun main() {
       <li>The Elvis operator returns "Text is null", which is then printed.</li>
     </ul>
 
-    This code is competely legitimate Kotlin, but for the types of programs we write in this book this aproach is generally more confusing than helpful. We tend to avoid it in this book.</p>
+    This code is competely legitimate Kotlin, but for the types of programs we write in this book this approach is generally more confusing than helpful. We tend to avoid it in this book.</p>
   </subsection>
 </section>

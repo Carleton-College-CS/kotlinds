@@ -122,7 +122,7 @@ fun main() {
   println(10 &gt; 5)                    // true
   println((5 &gt;= 1) &amp;&amp; (5 &lt;= 10))     // true
   println((1 &lt; 5) || (10 &lt; 1))       // true
-  println((2 &lt; 7) &amp;&amp; (7 &lt; 12)       // true
+  println((2 &lt; 7) &amp;&amp; (7 &lt; 12))       // true
 }</code>
     </program>
 
